@@ -28,6 +28,7 @@
 #include "net/TCPIP.h"
 #include "nvram/nvram.h"
 #include "HardwareProfile.h"
+#include "usb/usb_function_cdc.h"
 
 
 #pragma config JTAGEN = OFF         // Disable JTAG
@@ -52,6 +53,7 @@ FATFS FatFS;
 
 extern void GenericTCPServer(void);
 void usb_write (void);
+void USBUserApplication(void);
 
 int main(int argc, char** argv) {
     
@@ -100,6 +102,7 @@ int main(int argc, char** argv) {
         StackApplications();
         MINITEL_RX_EVENT();
         GenericTCPServer();
+        USBUserApplication();
         
         //USBDeviceTasks();
         
@@ -707,4 +710,21 @@ BOOL USER_USB_CALLBACK_EVENT_HANDLER(int event, void *pdata, WORD size)
             break;
     }      
     return TRUE; 
+}
+
+void USBUserApplication(void) {
+    char buf[64];
+    
+    if (USBGetDeviceState() < CONFIGURED_STATE ) {
+        return;
+    }
+    if (USBIsDeviceSuspended()) {
+        return;
+    }
+    if (USBUSARTIsTxTrfReady()) {
+        int numberOfBytes = getsUSBUSART(buf, sizeof(buf));
+        if (numberOfBytes > 0) {
+            putsUSBUSART(buf);
+        }
+    }
 }
