@@ -4,6 +4,19 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/home/marek/Dropbox/Projekty/MinitelInterface/code/main.c</file>
+            <file>file:/home/marek/Dropbox/Projekty/MinitelInterface/code/uart/debug_uart.c</file>
+            <file>file:/home/marek/Dropbox/Projekty/MinitelInterface/code/uart/debug_uart.h</file>
+            <file>file:/home/marek/Dropbox/Projekty/MinitelInterface/code/uart/uart.c</file>
+            <file>file:/home/marek/Dropbox/Projekty/MinitelInterface/code/net/ENC28J60.c</file>
+            <file>file:/home/marek/Dropbox/Projekty/MinitelInterface/code/HardwareProfile.h</file>
+            <file>file:/home/marek/Dropbox/Projekty/MinitelInterface/code/fatfs/diskio.c</file>
+            <file>file:/home/marek/Dropbox/Projekty/MinitelInterface/code/usb/usb_device.h</file>
+            <file>file:/home/marek/Dropbox/Projekty/MinitelInterface/code/usb/usb_function_cdc.h</file>
+            <file>file:/home/marek/Dropbox/Projekty/MinitelInterface/code/usb/usb_function_cdc.c</file>
+            <file>file:/home/marek/Dropbox/Projekty/MinitelInterface/code/usb/usb_common.h</file>
+            <file>file:/home/marek/Dropbox/Projekty/MinitelInterface/code/usb/usb_device.c</file>
+            <file>file:/home/marek/Dropbox/Projekty/MinitelInterface/code/usb/usb_config.h</file>
+            <file>file:/home/marek/Dropbox/Projekty/MinitelInterface/code/usb/usb_descriptors.c</file>
         </group>
     </open-files>
 </project-private>
