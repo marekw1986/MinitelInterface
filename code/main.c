@@ -102,9 +102,21 @@ int main(int argc, char** argv) {
         StackApplications();
         MINITEL_RX_EVENT();
         GenericTCPServer();
+        
+        #if defined(USB_INTERRUPT)
+        if(USB_BUS_SENSE && (USBGetDeviceState() == DETACHED_STATE))
+        {
+            USBDeviceAttach();
+        }
+        #endif
+
+        #if defined(USB_POLLING)
+        USBDeviceTasks();
+        #endif
+        
         USBUserApplication();
         
-        //USBDeviceTasks();
+//        USBDeviceTasks();
         
         if ((uint32_t)(millis()-disk_timer) >= 10) {
             disk_timer = millis();
@@ -714,6 +726,7 @@ BOOL USER_USB_CALLBACK_EVENT_HANDLER(int event, void *pdata, WORD size)
 
 void USBUserApplication(void) {
     char buf[64];
+    uint8_t num_butes_read;
     
     if (USBGetDeviceState() < CONFIGURED_STATE ) {
         return;
@@ -721,10 +734,29 @@ void USBUserApplication(void) {
     if (USBIsDeviceSuspended()) {
         return;
     }
-    if (USBUSARTIsTxTrfReady()) {
-        int numberOfBytes = getsUSBUSART(buf, sizeof(buf));
-        if (numberOfBytes > 0) {
-            putsUSBUSART(buf);
+    
+    if (mUSBUSARTIsTxTrfReady()) {
+        num_butes_read = getsUSBUSART(buf, sizeof(buf));
+        if (num_butes_read != 0) {
+            BYTE i;
+			for(i=0;i<num_butes_read;i++)
+			{
+				switch(buf[i])
+				{
+					case 0x0A:
+					case 0x0D:
+						buf[i] = buf[i];
+						break;
+					default:
+						buf[i] = buf[i] + 1;
+						break;
+				}
+
+			}          
+            putUSBUSART(buf, num_butes_read);
         }
+        
     }
+
+    CDCTxService();
 }
